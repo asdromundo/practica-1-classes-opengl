@@ -18,6 +18,7 @@ public:
     void read(const std::string &inputFile);
     std::vector<BattleResult> getResults() const;
     void save(const BattleResult &result, const std::string &outputFile) const;
+    static void runGameMode(GameManager::Mode mode, const std::string &inputFile, const std::string &outputFile);
 
 private:
     Mode mode;

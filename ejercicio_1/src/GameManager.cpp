@@ -2,8 +2,9 @@
 #include "Entity.hpp"
 #include "SpeciesComponent.hpp"
 #include "AttributeComponent.hpp"
-#include "Battle.hpp"
-#include "Tournament.hpp"
+#include "BattleManager.hpp"
+#include "TournamentManager.hpp"
+#include <iostream>
 #include <fstream>
 #include <sstream>
 
@@ -31,9 +32,15 @@ void GameManager::read(const std::string &inputFile)
             Entity e2(nombre2);
             e2.addComponent(std::make_shared<SpeciesComponent>(tipo2));
             e2.addComponent(std::make_shared<AttributeComponent>(f2, a2, i2));
-            Entity *ganador = Battle::fight(&e1, &e2, tipoBatalla);
+            BattleManager::Battle result = BattleManager::fight(&e1, &e2, static_cast<BattleManager::EncounterType>(tipoBatalla));
+            Entity *ganador = result.winner;
             std::ostringstream oss;
-            oss << nombre1 << " vs " << nombre2 << " → Gana " << ganador->getName();
+            oss << "--- Batalla " << BattleManager::encounterTypeToString(result.type) << " ---\n";
+            for (size_t j = 0; j < result.results.size(); ++j)
+            {
+                oss << "Encuentro " << (j + 1) << ": " << result.results[j]->getName() << " gana\n";
+            }
+            oss << "Ganador de la batalla: " << ganador->getName();
             results.push_back({oss.str()});
         }
     }
@@ -55,9 +62,34 @@ void GameManager::read(const std::string &inputFile)
             entidades.back()->addComponent(std::make_shared<AttributeComponent>(f, a, i));
             participantes.push_back(entidades.back().get());
         }
-        Tournament torneo(participantes);
-        torneo.runTournament();
-        // Para simplificar, no se guardan los resultados de cada ronda aquí
+        std::ostringstream oss;
+        oss << "\nTorneo iniciado con " << participantes.size() << " participantes\n";
+        std::vector<TournamentManager::Round> rounds = TournamentManager::runTournament(participantes);
+
+        for (const auto &round : rounds)
+        {
+            std::string ronda_info;
+            switch (round.battles.size())
+            {
+            case 1:
+                ronda_info = "Final";
+                break;
+            case 2:
+                ronda_info = "Semifinales";
+                break;
+            default:
+                ronda_info = "1/" + std::to_string(round.battles.size()) + " de final";
+                break;
+            }
+            oss << "--- " << ronda_info << " ---\n";
+            for (const auto &battle : round.battles)
+            {
+                oss << battle.e1->getComponent<SpeciesComponent>()->getSpeciesChar() << " " << battle.e1->getName() << " vs " << battle.e2->getComponent<SpeciesComponent>()->getSpeciesChar() << " " << battle.e2->getName() << " - Ganador: " << battle.winner->getName() << "\n";
+            }
+        }
+
+        oss << "Campeón del torneo: " << rounds.back().battles.front().winner->getName();
+        results.push_back({oss.str()});
         results.push_back({"Torneo finalizado"});
     }
     break;
@@ -76,4 +108,18 @@ void GameManager::save(const BattleResult &result, const std::string &outputFile
 {
     std::ofstream fout(outputFile, std::ios::app);
     fout << result.result << std::endl;
+}
+
+void GameManager::runGameMode(GameManager::Mode mode, const std::string &inputFile, const std::string &outputFile)
+{
+    GameManager manager(mode);
+    manager.read(inputFile);
+    std::vector<GameManager::BattleResult> results = manager.getResults();
+    std::ofstream clearFile(outputFile, std::ios::trunc);
+    clearFile.close();
+    for (const auto &result : results)
+    {
+        std::cout << result << std::endl;
+        manager.save(result, outputFile);
+    }
 }

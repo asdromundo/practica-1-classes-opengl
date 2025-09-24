@@ -12,12 +12,12 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 file(GLOB SOURCES
     # ${PROJECT_SOURCE_DIR}/src/*.cpp
 	${PROJECT_SOURCE_DIR}/src/Main.cpp
-	${PROJECT_SOURCE_DIR}/src/AttributeComponent.cpp
-	${PROJECT_SOURCE_DIR}/src/Battle.cpp
 	${PROJECT_SOURCE_DIR}/src/Entity.cpp
+	${PROJECT_SOURCE_DIR}/src/AttributeComponent.cpp
+	${PROJECT_SOURCE_DIR}/src/BattleManager.cpp
 	${PROJECT_SOURCE_DIR}/src/Main.cpp
 	${PROJECT_SOURCE_DIR}/src/SpeciesComponent.cpp
-	${PROJECT_SOURCE_DIR}/src/Tournament.cpp
+	${PROJECT_SOURCE_DIR}/src/TournamentManager.cpp
     ${PROJECT_SOURCE_DIR}/src/GameManager.cpp
 )
 
