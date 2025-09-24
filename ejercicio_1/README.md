@@ -30,13 +30,13 @@ Desarrollar un programa en C++ que simule **batallas y torneos de monstruos**, a
     - El ganador de la mayoría de encuentros gana la batalla.  
     - Los encuentros son **aleatorios pero proporcionales** a los atributos relevantes:
 
-    | Tipo de batalla      | Atributos considerados | Carácter |
-    |---------------------|---------------------|----------|
-    | Física              | fuerza + agilidad   | f        |
-    | Ingenio             | agilidad + inteligencia | i    |
-    | Espiritual          | fuerza + inteligencia | e       |
+    | Tipo de batalla | Atributos considerados  | Carácter |
+    | --------------- | ----------------------- | -------- |
+    | Física          | fuerza + agilidad       | f        |
+    | Ingenio         | agilidad + inteligencia | i        |
+    | Espiritual      | fuerza + inteligencia   | e        |
 
-    `Ejemplo:`*Godzilla tiene fuerza 80 y agilidad 40, King Kong tiene fuerza 30 y agilidad 50. Se enfrentan en una batalla física, por lo que Godizlla cuenta con 120 puntos para los encuentros mientras King Kong cuenta con 80 puntos. De tal manera que en cada encuentro Godizlla tiene 60% de ganar mientras King Kong tiene 40% de ganar.*
+    `Ejemplo:`*Godzilla tiene fuerza 80 y agilidad 40, King Kong tiene fuerza 30 y agilidad 50. Se enfrentan en una batalla física, por lo que Godizlla cuenta con 120 puntos para los encuentros mientras King Kong cuenta con 80 puntos. De tal manera que en cada encuentro Godzilla tiene 60% de ganar mientras King Kong tiene 40% de ganar.*
 
 - **Formato requerido para:** `batallas.txt`
     ``` 
@@ -111,3 +111,26 @@ Los participante del torneo se almacenan en el archivo `torneo.txt`, el cual es 
 
     - [random](https://cplusplus.com/reference/random/?kw=random+)
     - [std::vector](https://cplusplus.com/reference/vector/vector/)
+
+
+## Implementación
+
+### Diseño Entidad-Componente
+
+- Entity (Entidad):
+Representa a cada monstruo. No tiene lógica propia, solo almacena componentes y un nombre.
+
+- Component (Componente):
+Clase base abstracta para todos los componentes. Permite que cada tipo de información (especie, atributos, etc.) se agregue dinámicamente a una entidad.
+
+- SpeciesComponent:
+Componente que representa la especie del monstruo (Orco, Dragón, etc.). Solo almacena el carácter identificador.
+
+- AttributeComponent:
+Componente que almacena los atributos principales: fuerza, agilidad e inteligencia.
+
+- Battle:
+Clase con métodos estáticos para realizar batallas entre dos entidades, usando sus componentes.
+
+- Tournament:
+Clase que gestiona el torneo completo, usando las batallas y eliminando perdedores.

@@ -81,3 +81,25 @@ public:
 
 
  
+# Práctica 1
+
+## 1. Instrucciones
+
+El código de la práctica y las implementaciones requeridas se encuentran disponibles en la asignación correspondiente de GitHub Classroom. Es importante asegurarse de iniciar sesión con su cuenta de GitHub para poder acceder al repositorio y descargar los archivos necesarios.
+
+## 2. Puntos adicionales
+
+Adicional a la calificación de la práctica, es posible obtener un punto adicional si se realiza la investigación indicada junto con sus referencias. Entregar un archivo `.pdf` con las respuestas.
+
+- ¿Qué se conoce como Open Graphics Library?
+- ¿Para qué se utiliza la biblioteca GLFW?
+- ¿Para qué se utiliza la biblioteca GLEW?
+- Describe brevemente las diferencias entre OpenGL, GLFW y GLEW.
+- En el pipeline de OpenGL, ¿qué ocurre en el vertex shader?
+- En el pipeline de OpenGL, ¿qué ocurre en el fragment shader?
+- ¿Para qué se utiliza la clase `std::vector` y cuáles son los métodos más utilizados?
+
+## 3. Observaciones
+
+- Por cada día de retraso después de la fecha de entrega programada, se restará un punto del total obtenido en la práctica.
+- Se anulará cualquier práctica en la que se detecte el uso de herramientas de inteligencia artificial para generar el código.
