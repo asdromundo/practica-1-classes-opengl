@@ -1,7 +1,7 @@
 #include "engine/Shader.hpp"
 #include <sstream>
 #include <vector>
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 static std::string getShaderLog(unsigned int obj)

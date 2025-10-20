@@ -18,10 +18,24 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 # Encontrar bibliotecas
 find_package(OpenGL REQUIRED)
 
-# Agregar fuentes del proyecto (incluye glad.c)
+# Buscar GLEW (soporta tanto el módulo moderno que exporta GLEW::GLEW como la
+# biblioteca clásica). En Ubuntu el paquete de desarrollo suele proveer
+# find_package(GLEW) via cmake o al menos la biblioteca -lGLEW.
+find_package(GLEW QUIET)
+if(NOT GLEW_FOUND)
+    # Intentar localizar la librería y el include manualmente como fallback
+    find_path(GLEW_INCLUDE_DIR GL/glew.h HINTS /usr/include /usr/local/include)
+    find_library(GLEW_LIBRARY NAMES GLEW glew32 libGLEW HINTS /usr/lib /usr/lib/x86_64-linux-gnu /usr/local/lib)
+    if(GLEW_INCLUDE_DIR AND GLEW_LIBRARY)
+        set(GLEW_FOUND TRUE)
+        include_directories(${GLEW_INCLUDE_DIR})
+        set(GLEW_LIBRARIES ${GLEW_LIBRARY})
+    endif()
+endif()
+
+# Archivos fuente
 set(SRC_FILES
     ${PROJECT_SOURCE_DIR}/src/Main.cpp
-    ${PROJECT_SOURCE_DIR}/src/glad.c
     ${PROJECT_SOURCE_DIR}/src/Window.cpp
     ${PROJECT_SOURCE_DIR}/src/Renderer.cpp
     ${PROJECT_SOURCE_DIR}/src/Shader.cpp
@@ -59,11 +73,30 @@ else()
 endif()
 
 if (DEFINED GLFW_LIB)
-    target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL "${GLFW_LIB}")
+    # Enlazar con OpenGL, GLFW y (si está disponible) GLEW
+    if(GLEW_FOUND)
+        if(TARGET GLEW::GLEW)
+            target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL "${GLFW_LIB}" GLEW::GLEW)
+        else()
+            target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL "${GLFW_LIB}" ${GLEW_LIBRARIES})
+            target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIR})
+        endif()
+    else()
+        target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL "${GLFW_LIB}")
+    endif()
 else()
     # Fallback a la búsqueda mediante find_package si no hay librería local
     find_package(glfw3 REQUIRED)
-    target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL glfw)
+    if(GLEW_FOUND)
+        if(TARGET GLEW::GLEW)
+            target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL glfw GLEW::GLEW)
+        else()
+            target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL glfw ${GLEW_LIBRARIES})
+            target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIR})
+        endif()
+    else()
+        target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL glfw)
+    endif()
 endif()
 
 # Asegurar que los includes locales estén disponibles para targets

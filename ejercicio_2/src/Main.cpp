@@ -1,4 +1,4 @@
-#include "glad/glad.h"
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "engine/Window.hpp"
@@ -43,14 +43,6 @@ int main()
     }
     glfwMakeContextCurrent(window.native());
 
-    // Initialize GL function loader (glad)
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cerr << "Failed to initialize GLAD" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-
     Renderer renderer;
     if (!renderer.init(window.native()))
     {
@@ -75,13 +67,13 @@ int main()
 
     // 6 vertices (2 triangles)
     float vertices[] = {
-        -0.8f, -0.8f, 0.0f,
-        0.8f, -0.8f, 0.0f,
-        0.0f, 0.8f, 0.0f,
+        -1.0f, 1.0f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
 
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f};
+        1.0f, -1.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        0.0f, -1.0f, 0.0f};
 
     float colors[] = {
         1.0f, 0.0f, 0.0f,

@@ -1,5 +1,5 @@
 #include "engine/Mesh.hpp"
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <cstring>
 
 Mesh::Mesh() {}

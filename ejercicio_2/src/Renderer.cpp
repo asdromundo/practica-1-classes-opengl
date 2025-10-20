@@ -1,17 +1,17 @@
 #include "engine/Renderer.hpp"
 #include "engine/Shader.hpp"
 #include "engine/Mesh.hpp"
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 
 bool Renderer::init(void *glfwWindowPtr)
 {
-    // glfwWindowPtr is not used here, but keep for future use
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    // Initialize GLEW
+    if (glewInit() != GLEW_OK)
     {
-        std::cerr << "Renderer: Failed to initialize GLAD" << std::endl;
-        return false;
+        std::cerr << "Failed to initialize GLEW" << std::endl;
+        return -1;
     }
     glEnable(GL_DEPTH_TEST);
     return true;
