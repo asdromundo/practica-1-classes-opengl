@@ -13,7 +13,7 @@ bool Renderer::init(void *glfwWindowPtr)
         std::cerr << "Failed to initialize GLEW" << std::endl;
         return -1;
     }
-    glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_DEPTH_TEST);
     return true;
 }
 

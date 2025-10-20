@@ -18,6 +18,7 @@ Window::Window(int width, int height, const std::string &title)
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window");
     }
+    glfwMakeContextCurrent(m_window);
 }
 
 Window::~Window()

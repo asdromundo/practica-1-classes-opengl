@@ -36,12 +36,6 @@ const char *fragmentShaderSource = R"(
 int main()
 {
     Window window(800, 600, "OpenGL Triangle");
-    if (!window.native())
-    {
-        std::cerr << "Failed to initialize GLFW" << std::endl;
-        return -1;
-    }
-    glfwMakeContextCurrent(window.native());
 
     Renderer renderer;
     if (!renderer.init(window.native()))
