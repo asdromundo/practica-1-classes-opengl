@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-bool Renderer::init(void *glfwWindowPtr)
+bool Renderer::init(void *_glfwWindowPtr)
 {
     // Initialize GLEW
     if (glewInit() != GLEW_OK)
@@ -13,7 +13,7 @@ bool Renderer::init(void *glfwWindowPtr)
         std::cerr << "Failed to initialize GLEW" << std::endl;
         return -1;
     }
-    // glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     return true;
 }
 

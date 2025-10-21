@@ -36,6 +36,7 @@ endif()
 # Archivos fuente
 set(SRC_FILES
     ${PROJECT_SOURCE_DIR}/src/Main.cpp
+    ${PROJECT_SOURCE_DIR}/src/scenes/MainScene.cpp
     ${PROJECT_SOURCE_DIR}/src/Window.cpp
     ${PROJECT_SOURCE_DIR}/src/Renderer.cpp
     ${PROJECT_SOURCE_DIR}/src/Shader.cpp
