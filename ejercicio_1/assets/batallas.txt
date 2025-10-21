@@ -1,0 +1,3 @@
+    O Grommash 80 60 30 D Alduin 50 40 90 f
+    T Ugh 70 40 50 H Eldrin 40 55 95 i
+    E Skully 60 45 20 V Nosferatu 65 50 70 e

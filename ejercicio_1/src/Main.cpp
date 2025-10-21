@@ -4,9 +4,11 @@
 int main()
 {
     std::cout << "MONSTER TOURNAMENT!!!\n";
+    std::cout << "\n¡BATALLAS DE EXHIBICION!\n";
+    GameManager::runGameMode(GameManager::Mode::Battle, "assets/batallas.txt", "resultados.txt");
 
-    GameManager::runGameMode(GameManager::Mode::Battle, "batallas.txt", "resultados.txt");
-    GameManager::runGameMode(GameManager::Mode::Tournament, "torneo.txt", "resultados_torneo.txt");
+    std::cout << "\n¡QUE EMPIECE EL TORNEO!\n";
+    GameManager::runGameMode(GameManager::Mode::Tournament, "assets/torneo.txt", "resultados_torneo.txt");
 
     return 0;
 }
